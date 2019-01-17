@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+body {
+    font: 16px Helvetica, Arial;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 150px;
+    line-height: 3em
+}
