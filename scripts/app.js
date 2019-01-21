@@ -24,7 +24,7 @@ if (navigator.mediaDevices.getUserMedia) {
     var mediaRecorder = new MediaRecorder(stream)
 
     record.onclick = () => {
-      mediaRecorder.start()
+      mediaRecorder.start(3000)
       console.log(mediaRecorder.state)
       console.log('recorder started')
       record.style.background = 'red'
@@ -95,8 +95,11 @@ if (navigator.mediaDevices.getUserMedia) {
       }
     }
 
+    let flag=true
     mediaRecorder.ondataavailable = function (e) {
+      if(flag)
       chunks.push(e.data)
+      flag=false
     }
   }
 
