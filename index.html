@@ -1,35 +1,54 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <html>
-
-<head>
-    <title>
-        Sentiment Assisstant
-    </title>
+  <head>
+    <title>Sentiment</title>
     <link rel="stylesheet" href="style.css" />
-</head>
+  </head>
 
-<body>
-    <div class="wrapper">
-
-        <header>
-          <h1>Web dictaphone</h1>
-        </header>
-  
-        <section class="main-controls">
-          <canvas class="visualizer" height="60px"></canvas>
-          <div id="buttons">
-            <button class="record">Record</button>
-            <button class="stop">Stop</button>
+  <body>
+    <span class="mainwrapper">
+      <span class="messages">
+          <ul id="messages">
+            <li>User Chat 1</li>
+            <li>User Chat 2</li>
+            <li>User Chat 2</li>
+            <li>User Chat 2</li>
+            <li>User Chat 2</li>
+            <li>User Chat 2</li>
+          </ul>
+          <div style="text-align: center;padding-top: 10px">
+              <button id="startbutton">Start</button>
+              <button id="stopbutton">Stop</button>
           </div>
-        </section>
-  
-        <section class="sound-clips">
-  
-  
-        </section>
-  
-      </div>  
-      <!-- Below is your custom application script -->
-      <script src="scripts/app.js"></script>
-</body>
+          <div style="text-align: center;padding-top: 15px;">
+            Sentiment Score : <span id="sent-score">10</span>
+          </div>  
+          <div id="happy" style="text-align: center;padding-top: 15px">
+            Happy
+          </div>
+          <div id="sad" style="text-align: center;padding-top: 15px">
+              Sad
+            </div>
+            <div id="neutral" style="text-align: center;padding-top: 15px">
+                Neutral
+              </div>
+      </span>
+      <span class="online">
+          <ul id="online">
+              Possible Answers :
+              <li>Answer 1</li>
+              <li>Answer 2</li>
+              <li>Answer 2</li>
+              <li>Answer 2</li>
+              <li>Answer 2</li>
+            </ul>
+      </span>
+      
+      
+    </span>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>

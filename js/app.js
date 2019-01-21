@@ -72,7 +72,7 @@ if (navigator.mediaDevices.getUserMedia) {
       soundClips.appendChild(clipContainer)
 
       audio.controls = true
-      var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' })
+      var blob = new Blob(chunks, { 'type': 'audio/vnd.wav; codecs=opus' })
       chunks = []
       var audioURL = window.URL.createObjectURL(blob)
       audio.src = audioURL
@@ -95,11 +95,8 @@ if (navigator.mediaDevices.getUserMedia) {
       }
     }
 
-    let flag=true
     mediaRecorder.ondataavailable = function (e) {
-      if(flag)
       chunks.push(e.data)
-      flag=false
     }
   }
 
