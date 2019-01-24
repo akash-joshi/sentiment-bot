@@ -1,9 +1,16 @@
 # sentiment-bot
 
+## Starting Server
 ```
-pip install Flask
+pip install -r requirements.txt
 python server.py
 ```
 
-> For Windows
+## Starting Client
+```
+npm add parcel-bundler -g
+parcel index.html
+```
+
+> For starting virtual env
 ```.\venv\Scripts\activate```
