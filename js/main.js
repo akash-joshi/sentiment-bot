@@ -44,11 +44,12 @@ if (navigator.mediaDevices.getUserMedia) {
       const blob = new Blob([e.data], { 'type': 'audio/vnd.wav; codecs=opus' })
       const fd = new FormData();
       fd.append('fname', 'test.wav');
-      fd.append('data', 'soundBlob');
+      fd.append('data', blob);
+      console.log(fd.get('data'))
       $.ajax({
         type: 'POST',
         url: 'http://localhost:8000/voice-checker',
-        data: fd,
+        data: fd ,
         processData: false,
         contentType: false
       }).done(function(data) {

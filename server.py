@@ -9,7 +9,8 @@ def hello():
 
 @app.route("/voice-checker",methods=["POST"])
 def secr():
-    print(request.form)
+    print(request.form.get('fname'))
+    print(request.files)
     return("lol")
 
 if __name__ == "__main__":
