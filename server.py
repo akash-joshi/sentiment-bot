@@ -5,7 +5,7 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
-@app.route("/secr",methods=["POST"])
+@app.route("/voice-checker",methods=["POST"])
 def secr():
     print(request.get_json(force=True))
     return("lol")
