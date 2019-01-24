@@ -2,5 +2,8 @@
 
 ```
 pip install Flask
-FLASK_APP=server.py flask run
+python server.py
 ```
+
+> For Windows
+```.\venv\Scripts\activate```

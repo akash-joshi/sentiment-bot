@@ -1,7 +1,7 @@
 const record = document.querySelector('#startbutton')
 const stop = document.querySelector('#stopbutton')
 
-const { MediaRecorder, prompt, Blob } = window
+const { MediaRecorder, Blob } = window
 
 // disable stop button while not recording
 
@@ -41,7 +41,19 @@ if (navigator.mediaDevices.getUserMedia) {
     }
 
     mediaRecorder.ondataavailable = (e) => {
-      const blob = new Blob(e.data, { 'type': 'audio/vnd.wav; codecs=opus' })
+      const blob = new Blob([e.data], { 'type': 'audio/vnd.wav; codecs=opus' })
+      const fd = new FormData();
+      fd.append('fname', 'test.wav');
+      fd.append('data', 'soundBlob');
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8000/voice-checker',
+        data: fd,
+        processData: false,
+        contentType: false
+      }).done(function(data) {
+           console.log(data);
+      });
       console.log('ondataavailable')
     }
   }
