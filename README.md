@@ -8,7 +8,7 @@ python server.py
 
 ## Starting Client
 ```
-npm add parcel-bundler
+npm add parcel-bundler -g
 parcel index.html
 ```
 
