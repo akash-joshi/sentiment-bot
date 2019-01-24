@@ -24,6 +24,7 @@ if (navigator.mediaDevices.getUserMedia) {
       running.style.display = ""
       stop.disabled = false
       record.disabled = true
+      record.style.display = "none"
     }
 
     stop.onclick = () => {
@@ -31,6 +32,7 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log(mediaRecorder.state)
       console.log('recorder stopped')
       running.style.display = "none"
+      record.style.display = ""
       stop.disabled = true
       record.disabled = false
     }
