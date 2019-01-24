@@ -1,9 +1,9 @@
 # sentiment-bot
 
 ```
-pip install Flask
+pip install -r requirements.txt
 python server.py
 ```
 
-> For Windows
+> For starting virtual env
 ```.\venv\Scripts\activate```
