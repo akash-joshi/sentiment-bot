@@ -1,6 +1,6 @@
 const record = document.querySelector('#startbutton')
 const stop = document.querySelector('#stopbutton')
-
+const running = document.querySelector('#running')
 const { MediaRecorder, Blob } = window
 
 // disable stop button while not recording
@@ -21,7 +21,7 @@ if (navigator.mediaDevices.getUserMedia) {
       mediaRecorder.start(3000)
       console.log(mediaRecorder.state)
       console.log('recorder started')
-
+      running.style.display = ""
       stop.disabled = false
       record.disabled = true
     }
@@ -30,7 +30,7 @@ if (navigator.mediaDevices.getUserMedia) {
       mediaRecorder.stop()
       console.log(mediaRecorder.state)
       console.log('recorder stopped')
-
+      running.style.display = "none"
       stop.disabled = true
       record.disabled = false
     }
