@@ -25,12 +25,12 @@ model = load_model('rnn_mfcc_model_ver_1.h5')
 @app.route("/voice-checker",methods=["POST"])
 def secr():
     print(request.form.get('fname'))
-    print(request.files)
-	audio_file=request.files
-	x=toMfcc(audio_file)
-	res=prePro(x)
-	result=model.predict(res)
-	result=result.argmax(axis=1)
+    a=request.files
+	#audio_file=request.files
+    x=toMfcc(a)
+    res=prePro(x)
+    result=model.predict(res)
+    result=result.argmax(axis=1)
     return(result)
 
 if __name__ == "__main__":
