@@ -3,6 +3,7 @@ const stop = document.querySelector('#stopbutton')
 const running = document.querySelector('#running')
 const { MediaRecorder, Blob } = window
 
+let flag=true
 // disable stop button while not recording
 
 stop.disabled = true
@@ -13,12 +14,12 @@ if (navigator.mediaDevices.getUserMedia) {
   console.log('getUserMedia supported.')
 
   const constraints = { audio: true }
-
+  document.querySelector('#ouraudio').setAttribute('controls','')
   const onSuccess = (stream) => {
     const mediaRecorder = new MediaRecorder(stream)
 
     record.onclick = () => {
-      mediaRecorder.start(3000)
+      mediaRecorder.start(6000)
       console.log(mediaRecorder.state)
       console.log('recorder started')
       running.style.display = ""
@@ -43,12 +44,17 @@ if (navigator.mediaDevices.getUserMedia) {
     }
 
     mediaRecorder.ondataavailable = (e) => {
-      const blob = new Blob([e.data], { 'type': 'audio/vnd.wav; codecs=opus' })
+      const blob = new Blob([e.data], { 'type' : 'audio/wav' })
       const fd = new FormData();
       fd.append('fname', 'test.wav');
       fd.append('data', blob);
-      console.log(fd.get('data'))
-      $.ajax({
+      const audio = document.querySelector('#ouraudio')
+      const audioURL = window.URL.createObjectURL(blob);
+      audio.src = audioURL;
+      //console.log(fd.get('data').size)
+      //console.log(blob.size)
+      if(flag){
+        $.ajax({
         type: 'POST',
         url: 'http://localhost:8000/voice-checker',
         data: fd ,
@@ -57,6 +63,8 @@ if (navigator.mediaDevices.getUserMedia) {
       }).done(function(data) {
            console.log(data);
       });
+      }
+      flag=false
       console.log('ondataavailable')
     }
   }

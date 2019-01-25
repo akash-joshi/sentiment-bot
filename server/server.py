@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 from werkzeug.utils import secure_filename
-import librosa
+#import librosa
 #from keras.models import load_model
 
 app = Flask(__name__)
@@ -24,10 +24,13 @@ def prePro(x):
 
 @app.route("/voice-checker",methods=["POST"])
 def secr():
-    #print(request.form.get('fname'))
+    #f = open('file.wav', 'wb')
+    #f.write(request.data)
+    #f.close()
+    #print(request.data)
     a=request.files.get('data')
     a.save('a.wav' )
-    print(a)
+    #print(a)
     return("server_response")
 '''
     #audio_file=request.files
