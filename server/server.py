@@ -2,9 +2,9 @@ from flask import (Flask,request)
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
-
+from werkzeug.utils import secure_filename
 import librosa
-from keras.models import load_model
+#from keras.models import load_model
 
 app = Flask(__name__)
 CORS(app)
@@ -20,18 +20,24 @@ def prePro(x):
     res= np.expand_dims(res, axis=2)
     return res
 	
-model = load_model('rnn_mfcc_model_ver_1.h5')
+#model = load_model('rnn_mfcc_model_ver_1.h5')
 
 @app.route("/voice-checker",methods=["POST"])
 def secr():
-    print(request.form.get('fname'))
-    a=request.files
-	#audio_file=request.files
+    #print(request.form.get('fname'))
+    a=request.files.get('data')
+    a.save('a.wav' )
+    print(a)
+    return("server_response")
+'''
+    #audio_file=request.files
     x=toMfcc(a)
     res=prePro(x)
+    print(res)
     result=model.predict(res)
     result=result.argmax(axis=1)
     return(result)
+'''
 
 if __name__ == "__main__":
     app.run(port='8000')    
