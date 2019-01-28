@@ -23,12 +23,9 @@ def prePro(x):
 #model = load_model('rnn_mfcc_model_ver_1.h5')
 @app.route("/voice-checker",methods=["POST"])
 def secr():
-    #f = open('file.wav', 'wb')
-    #f.write(request.data)
-    #f.close()
     #print(request.data)
     a=request.files.get('data')
-    a.save(request.form.get('fname')+'.wav' )
+    a.save(request.form.get('fname'))
     #print(a)
     return("server_response")
 '''

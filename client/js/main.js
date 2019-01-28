@@ -15,19 +15,24 @@ if (navigator.mediaDevices.getUserMedia) {
   console.log('getUserMedia supported.')
 
   const constraints = { audio: true }
+  let chunks = [];
+
   document.querySelector('#ouraudio').setAttribute('controls','')
   const onSuccess = (stream) => {
     const mediaRecorder = new MediaRecorder(stream)
     console.log(mediaRecorder)
-    const record_and_send = (mediaRecorder) => {
-     console.log(num)
-     setTimeout(()=> {if(mediaRecorder.status === 'recording') 
-      mediaRecorder.stop()}, 3000);
-     if(mediaRecorder.state !== 'recording')
-     mediaRecorder.start();
-    }
 
-    let chunks = [];
+    const record_and_send = (mediaRecorder) => {
+       console.log(num)
+
+       if(mediaRecorder.state != 'recording'){
+         mediaRecorder.start();
+       }
+
+       setTimeout(()=> {
+        if(mediaRecorder.state != 'inactive')
+          mediaRecorder.stop()}, 3000);
+    }
 
     const startFunc = (mediaRecorder) => {
       console.log(mediaRecorder)
@@ -39,7 +44,10 @@ if (navigator.mediaDevices.getUserMedia) {
     }
 
     record.onclick = () => {
-      //mediaRecorder.start(6000)
+      mediaRecorder.start(3000)
+      setTimeout(()=> {
+        if(mediaRecorder.state != 'inactive')
+          mediaRecorder.stop()}, 3000);
       startFunc(mediaRecorder)
       console.log(mediaRecorder.state)
       console.log('recorder started')
@@ -51,7 +59,6 @@ if (navigator.mediaDevices.getUserMedia) {
 
     stop.onclick = () => {
       stopFunc()
-      //mediaRecorder.stop()
       console.log(mediaRecorder.state)
       console.log('recorder stopped')
       running.style.display = "none"
@@ -77,6 +84,7 @@ if (navigator.mediaDevices.getUserMedia) {
       }).done(function(data) {
            console.log(data);
       });
+      chunks = [];
     }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
