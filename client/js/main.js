@@ -17,7 +17,6 @@ if (navigator.mediaDevices.getUserMedia) {
   const constraints = { audio: true }
   let chunks = [];
 
-  document.querySelector('#ouraudio').setAttribute('controls','')
   const onSuccess = (stream) => {
     const mediaRecorder = new MediaRecorder(stream)
     console.log(mediaRecorder)
@@ -25,13 +24,14 @@ if (navigator.mediaDevices.getUserMedia) {
     const record_and_send = (mediaRecorder) => {
        console.log(num)
 
-       if(mediaRecorder.state != 'recording'){
-         mediaRecorder.start();
-       }
+       if(mediaRecorder.state != 'recording')
+        mediaRecorder.start()
 
        setTimeout(()=> {
-        if(mediaRecorder.state != 'inactive')
-          mediaRecorder.stop()}, 3000);
+        if(mediaRecorder.state != 'inactive'){
+          mediaRecorder.stop()
+        }
+        }, 3000);
     }
 
     const startFunc = (mediaRecorder) => {
@@ -85,6 +85,7 @@ if (navigator.mediaDevices.getUserMedia) {
            console.log(data);
       });
       chunks = [];
+      mediaRecorder.start()
     }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
