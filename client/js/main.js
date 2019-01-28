@@ -21,8 +21,9 @@ if (navigator.mediaDevices.getUserMedia) {
     console.log(mediaRecorder)
     const record_and_send = (mediaRecorder) => {
      console.log(num)
-     setTimeout(()=> mediaRecorder.stop(), 3000);
-     if(mediaRecorder.state != 'recording')
+     setTimeout(()=> {if(mediaRecorder.status === 'recording') 
+      mediaRecorder.stop()}, 3000);
+     if(mediaRecorder.state !== 'recording')
      mediaRecorder.start();
     }
 
