@@ -44,7 +44,8 @@ if (navigator.mediaDevices.getUserMedia) {
     }
 
     record.onclick = () => {
-      mediaRecorder.start(3000)
+      if(mediaRecorder.state != 'recording')
+        mediaRecorder.start(3000)
       setTimeout(()=> {
         if(mediaRecorder.state != 'inactive')
           mediaRecorder.stop()}, 3000);
