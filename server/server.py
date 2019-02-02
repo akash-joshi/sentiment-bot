@@ -8,11 +8,12 @@ import wave as wa
 import os
 import tensorflow as tf
 from keras.models import load_model
-global graph,model
+global graph,model,emotion
 graph = tf.get_default_graph()
 files=[]
 app = Flask(__name__)
 CORS(app)
+emotion=["neutral"," calm","happy","sad","angry","fearful","disgust","surprised"]
 
 def toMfcc(file):
    X, sample_rate = librosa.load(file, res_type='kaiser_fast')
@@ -25,7 +26,7 @@ def prePro(x):
     res= np.expand_dims(res, axis=2)
     return res
 	
-model = load_model('rnn_mfcc_model_ver_1.h5')
+model = load_model('rnn_mfcc_model_ver_1_CPU.h5')
 @app.route("/voice-checker",methods=["POST"])
 def secr():
     #print(request.data)
@@ -41,10 +42,11 @@ def secr():
     fresult=result.argmax(axis=1)
    # print(a)
     #x=wa.open(io.BytesIO(z),mode='rb')
-    print(fresult)
+   # print(fresult)
     os.remove(fname)
     val=fresult[0]
-    return("Emotion:"+str(val))
+    print(emotion[val])
+    return("Emotion:"+emotion[val])
 '''
     #audio_file=request.files
     x=toMfcc(a)s
