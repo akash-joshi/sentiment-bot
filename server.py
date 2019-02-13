@@ -32,7 +32,7 @@ def prePro(x):
     res= np.expand_dims(res, axis=2)
     return res
 	
-model = load_model('rnn_mfcc_model_ver_1_CPU.h5')
+model = load_model('server/rnn_mfcc_model_ver_1_CPU.h5')
 @app.route("/voice-checker",methods=["POST"])
 def secr():
     #print(request.data)
