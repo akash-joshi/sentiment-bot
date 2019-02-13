@@ -1,4 +1,4 @@
-from flask import (Flask,request)
+from flask import (Flask,request,render_template)
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -10,15 +10,19 @@ import tensorflow as tf
 from keras.models import load_model
 global graph,model,emotion
 
-
-#each time the server starts is equal to a new session on call
-
-
-
-graph = tf.get_default_graph()
-files=[]
 app = Flask(__name__)
 CORS(app)
+'''
+#each time the server starts is equal to a new session on call
+
+@app.route('/')
+def main():
+    return render_template('index.html')
+'''
+graph = tf.get_default_graph()
+files=[]
+
+
 emotion=["neutral"," calm","happy","sad","angry","fearful","disgust","surprised"]
 count=0
 def toMfcc(file):
@@ -33,6 +37,9 @@ def prePro(x):
     return res
 	
 model = load_model('server/rnn_mfcc_model_ver_1_CPU.h5')
+
+
+
 @app.route("/voice-checker",methods=["POST"])
 def secr():
     #print(request.data)
@@ -65,6 +72,8 @@ def secr():
     result=result.argmax(axis=1)
     return(result)
 '''
+
+
 def deleteTempAudioFile(f):#use this when we can detect connection is closed
     for file in f:
 	    os.remove(file)
@@ -100,4 +109,4 @@ def emotion_red(v):
        return 1
 
 if __name__ == "__main__":
-    app.run(port='8000')    
+    app.run()    
