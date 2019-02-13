@@ -50,7 +50,8 @@ if (navigator.mediaDevices.getUserMedia) {
       num++
       $.ajax({
         type: 'POST',
-        url: 'http://localhost:8000/voice-checker',
+        url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
+       // url: 'http://localhost:5000/voice-checker',
         data: fd ,
         processData: false,
         contentType: false
@@ -58,7 +59,7 @@ if (navigator.mediaDevices.getUserMedia) {
            console.log(data);
       });
       chunks = [];
-      mediaRecorder.start()
+     // mediaRecorder.start()
     }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
