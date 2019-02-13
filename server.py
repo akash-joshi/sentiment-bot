@@ -11,7 +11,7 @@ from keras.models import load_model
 global graph,model,emotion
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 '''
 #each time the server starts is equal to a new session on call
 
