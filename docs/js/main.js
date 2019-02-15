@@ -1,11 +1,12 @@
 const record = document.querySelector('#startbutton')
 const stop = document.querySelector('#stopbutton')
 const running = document.querySelector('#running')
+const emotion = document.querySelector('#emotion')
 const { MediaRecorder, Blob } = window
 const {startStream,stopStream} = AVStream
 
 let num=1;
-let flag=true
+
 // disable stop button while not recording
 
 stop.disabled = true
@@ -55,11 +56,10 @@ if (navigator.mediaDevices.getUserMedia) {
         data: fd ,
         processData: false,
         contentType: false
-      }).done(function(data) {
-           console.log(data);
+      }).done(data => {
+          emotion.textContent = data
       });
       chunks = [];
-     // mediaRecorder.start()
     }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
