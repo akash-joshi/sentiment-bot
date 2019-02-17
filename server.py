@@ -12,6 +12,7 @@ global graph,model,emotion
 
 app = Flask(__name__)
 CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 '''
 #each time the server starts is equal to a new session on call
 
