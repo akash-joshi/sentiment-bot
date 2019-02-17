@@ -90,7 +90,7 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
         return update_wrapper(wrapped_function, f)
     return decorator
 
-@app.route("/voice-checker",methods=["POST"])
+@app.route("/voice-checker",methods=["POST","OPTIONS"])
 @crossdomain(origin='*')
 def secr():
     #print(request.data)
