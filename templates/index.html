@@ -3,14 +3,14 @@
 <html>
   <head>
     <title>Sentiment</title>
-    <link rel="stylesheet" href=""{{ url_for('static', filename = 'style.css') }}"" />
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}" />
   </head>
 
   <body>
     <span class="mainwrapper">
       <span class="messages">
           <div id="running" style="display: none;text-align: center">
-            <img src=""{{ url_for('static', filename = 'running.svg') }}"" />
+            <img src="{{ url_for('static', filename = 'running.svg') }}" />
           </div>
           <div style="text-align: center;padding-top: 10px">
               <button id="startbutton">Start</button>
@@ -33,7 +33,7 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-  <script src=""{{ url_for('static', filename = 'avstream.js') }}""></script>
-    <script src=""{{ url_for('static', filename = 'main.js') }}""></script>
+  <script src="{{ url_for('static', filename = 'avstream.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'main.js') }}"></script>
   </body>
 </html>

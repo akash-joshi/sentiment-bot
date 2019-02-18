@@ -51,7 +51,7 @@ if (navigator.mediaDevices.getUserMedia) {
       num++
       $.ajax({
         type: 'POST',
-        url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
+        url: 'voice-checker',
        // url: 'http://localhost:5000/voice-checker',
         data: fd ,
         processData: false,
