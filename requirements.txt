@@ -1,7 +1,7 @@
 Flask==1.0.2
 gunicorn==19.9.0
 numpy==1.16.0
-Werkzeug==0.12.2
+Werkzeug==0.14
 Keras==2.2.4
 librosa==0.6.2
 Flask_Cors==3.0.2
