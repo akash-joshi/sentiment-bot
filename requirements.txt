@@ -1,5 +1,5 @@
-Flask
-gunicorn
+Flask==1.0.2
+gunicorn==19.9.0
 numpy==1.16.0
 Werkzeug==0.12.2
 Keras==2.2.4
