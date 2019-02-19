@@ -33,6 +33,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
     stop.onclick = () => {
       stopStream()
+      num=1;
       console.log(mediaRecorder.state)
       console.log('recorder stopped')
       running.style.display = "none"
@@ -48,15 +49,16 @@ if (navigator.mediaDevices.getUserMedia) {
       fd.append('fname', num+'.wav');
       fd.append('data', blob);
       num++
-      $.ajax({
-        type: 'POST',
-        url: 'http://localhost:5000/voice-checker',
-        data: fd ,
-        processData: false,
-        contentType: false
-      }).done(function(data) {
-           console.log(data);
-      });
+      if(num<4)
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:5000/voice-checker',
+          data: fd ,
+          processData: false,
+          contentType: false
+        }).done(function(data) {
+             console.log(data);
+        });
       chunks = [];
       mediaRecorder.start()
     }
