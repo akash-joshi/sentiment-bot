@@ -9,13 +9,13 @@ const AVStream = {
         repeat = setInterval(() => {
             console.log(num)
             if (mediaRecorder.state != 'recording')
-                mediaRecorder.start()
+                mediaRecorder.start(time)
 
             setTimeout(() => {
                 if (mediaRecorder.state != 'inactive') {
                     mediaRecorder.stop()
                 }
-            }, 3000);
+            }, time);
         }, time);
     }),
     stopStream: (() => {

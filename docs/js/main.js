@@ -1,12 +1,11 @@
 const record = document.querySelector('#startbutton')
 const stop = document.querySelector('#stopbutton')
 const running = document.querySelector('#running')
-const emotion = document.querySelector('#emotion')
 const { MediaRecorder, Blob } = window
 const {startStream,stopStream} = AVStream
 
 let num=1;
-
+let flag=true
 // disable stop button while not recording
 
 stop.disabled = true
@@ -51,15 +50,15 @@ if (navigator.mediaDevices.getUserMedia) {
       num++
       $.ajax({
         type: 'POST',
-        url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
-       // url: 'http://localhost:5000/voice-checker',
+        url: 'http://localhost:5000/voice-checker',
         data: fd ,
         processData: false,
         contentType: false
-      }).done(data => {
-          emotion.textContent = data
+      }).done(function(data) {
+           console.log(data);
       });
       chunks = [];
+      mediaRecorder.start()
     }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
