@@ -1,0 +1,39 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<html>
+  <head>
+    <title>Sentiment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}" />
+  </head>
+
+  <body>
+    <span class="mainwrapper">
+      <span class="messages">
+          <div id="running" style="display: none;text-align: center">
+            <img src="{{ url_for('static', filename = 'running.svg') }}" />
+          </div>
+          <div style="text-align: center;padding-top: 10px">
+              <button id="startbutton">Start</button>
+          </div>
+          <div style="text-align: center;padding-top: 10px">
+            <button id="stopbutton">Stop</button>
+          </div>  
+          <!--div style="text-align: center;padding-top: 15px;">
+            Sentiment Score : <span id="sent-score">10</span>
+          </div-->  
+          <div id="emotion" style="text-align: center;padding-top: 15px">
+            ---
+          </div>
+      </span>
+      
+      
+    </span>
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename = 'avstream.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'main.js') }}"></script>
+  </body>
+</html>
