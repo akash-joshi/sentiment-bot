@@ -49,6 +49,7 @@ if (navigator.mediaDevices.getUserMedia) {
       fd.append('fname', num+'.wav');
       fd.append('data', blob);
       num++
+      if(num==2){
       $.ajax({
         type: 'POST',
         url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
@@ -62,6 +63,7 @@ if (navigator.mediaDevices.getUserMedia) {
       chunks = [];
       mediaRecorder.start()
     }
+  }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
   }
