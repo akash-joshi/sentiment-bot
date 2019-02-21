@@ -83,7 +83,4 @@ body {
 #update {
   vertical-align: middle;
 }
-.mainwrapper {
-  display: flex;
-  flex-direction: row;
-}
+
