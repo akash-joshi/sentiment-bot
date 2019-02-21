@@ -33,7 +33,7 @@ def secr():
     if os.path.exists(f):
       x=toMfcc(fname)
       res=prePro(x)
-   else:
+    else:
       print("The file does not exist") 
     print("Before predict")
     with graph.as_default():
