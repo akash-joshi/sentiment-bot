@@ -31,6 +31,7 @@ def secr():
     fname=request.form.get('fname')
     a.save(fname)
     if os.path.exists(fname):
+      print(""+fname)
       x=toMfcc(fname)
       res=prePro(x)
     else:
