@@ -1,6 +1,7 @@
 const record = document.querySelector('#startbutton')
 const stop = document.querySelector('#stopbutton')
 const running = document.querySelector('#running')
+const emotion = document.querySelector('#emotion')
 const { MediaRecorder, Blob } = window
 const {startStream,stopStream} = AVStream
 
@@ -55,7 +56,8 @@ if (navigator.mediaDevices.getUserMedia) {
         processData: false,
         contentType: false
       }).done(function(data) {
-           console.log(data);
+        emotion.textContent = data
+        console.log(data)
       });
       chunks = [];
       mediaRecorder.start()
