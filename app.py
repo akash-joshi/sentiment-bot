@@ -5,8 +5,20 @@ import librosa
 import pandas as pd
 import numpy as np
 import os
+from keras.models import load_model
+import tensorflow as tf
 app = Flask(__name__)
 CORS(app)
+global graph,model,emotion
+
+model = load_model('model/rnn_mfcc_model_ver_1_CPU.h5')
+
+graph = tf.get_default_graph()
+files=[]
+
+emotion=["neutral"," calm","happy","sad","angry","fearful","disgust","surprised"]
+count=0
+
 
 @app.route('/')
 def homepage():
@@ -20,9 +32,51 @@ def secr():
     a.save(fname)
     x=toMfcc(fname)
     res=prePro(x)
+    print("Before predict")
+    with graph.as_default():
+      result=model.predict(res)
+    print("After predict")
+    fresult=result.argmax(axis=1)
+    val=fresult[0]
+    em=emotion_norm(val)
     delFile(fname)
     print(res)
-    return (res.tostring())
+    print(emotion[em])
+    return ("Emotion:"+emotion[em])
+
+
+
+emo=0		
+def emotion_norm(v):
+    reduced_emo=emotion_red(v)
+    global emo
+    if reduced_emo==2:
+        emo+=6
+        if emo<-5:
+          emo+=3
+        if emo<-15:
+          emo+=10		
+    elif reduced_emo==0:
+        emo-=2
+    else:
+        emo-=4
+	   
+    print(emo)   
+    if emo>=10:
+       return 4
+    elif emo<0:
+       return 2
+    else:
+       return 0
+
+
+def emotion_red(v):
+    if v==4 or v==5 or v==6:
+       return 2
+    elif v==0 or v==1 or v==3:
+       return 0
+    else:
+       return 1
 
 
 def delFile(f):
