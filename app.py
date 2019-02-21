@@ -30,11 +30,12 @@ def secr():
     a=request.files.get('data')
     fname=request.form.get('fname')
     a.save(fname)
-    if os.path.exists(f):
+    if os.path.exists(fname):
       x=toMfcc(fname)
       res=prePro(x)
     else:
       print("The file does not exist") 
+      return ("File not available")
     print("Before predict")
     with graph.as_default():
       result=model.predict(res)
