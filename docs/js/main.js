@@ -49,7 +49,13 @@ if (navigator.mediaDevices.getUserMedia) {
       fd.append('fname', num+'.wav');
       fd.append('data', blob);
       num++
-      $.ajax({
+
+      fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',{method:"POST",mode:"cors",body:fd}).then(response=>response.json())
+      .then(emote=>{
+          emotion.textContent = emote
+          console.log(emote)
+      })
+      /*$.ajax({
         type: 'POST',
         url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
         data: fd ,
@@ -58,7 +64,7 @@ if (navigator.mediaDevices.getUserMedia) {
       }).done(function(data) {
         emotion.textContent = data
         console.log(data)
-      });
+      });*/
       chunks = [];
       mediaRecorder.start()
     }
