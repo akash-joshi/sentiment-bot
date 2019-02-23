@@ -50,22 +50,17 @@ if (navigator.mediaDevices.getUserMedia) {
       fd.append('data', blob);
       num++
 
-      fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',{method:"POST",mode:"cors",body:fd}).then(response=>response.json())
+      const options = {
+        method:"POST",mode:"cors",body:fd
+      }
+
+      fetch('http://localhost:5000/voice-checker',options).then(response=>response.json())
       .then(emote=>{
           emotion.textContent = emote
           console.log(emote)
       })
-      /*$.ajax({
-        type: 'POST',
-        url: 'https://sentiment-bot-api.herokuapp.com/voice-checker',
-        data: fd ,
-        processData: false,
-        contentType: false
-      }).done(function(data) {
-        emotion.textContent = data
-        console.log(data)
-      });*/
       chunks = [];
+      if (mediaRecorder.state != 'recording')
       mediaRecorder.start()
     }
 

@@ -15,7 +15,7 @@ const AVStream = {
                 if (mediaRecorder.state != 'inactive') {
                     mediaRecorder.stop()
                 }
-            }, 3000);
+            }, time);
         }, time);
     }),
     stopStream: (() => {
