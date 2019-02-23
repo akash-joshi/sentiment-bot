@@ -51,10 +51,10 @@ if (navigator.mediaDevices.getUserMedia) {
       num++
 
       const options = {
-        method:"POST",mode:"cors",body:fd
+        method:"POST",body:fd
       }
 
-      fetch('http://localhost:5000/voice-checker',options).then(response=>response.json())
+      fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
           emotion.textContent = emote
           console.log(emote)
