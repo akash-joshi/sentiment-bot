@@ -10,6 +10,7 @@ import tensorflow as tf
 app = Flask(__name__)
 CORS(app)
 global graph,model,emotion
+app.config['UPLOAD_FOLDER'] = 'tmp/'
 
 model = load_model('model/rnn_mfcc_model_ver_1_CPU.h5')
 
@@ -29,14 +30,11 @@ def homepage():
 def secr():
     a=request.files.get('data')
     fname=request.form.get('fname')
-    a.save(fname)
-    if os.path.exists(fname):
+    a.save(os.path.join(app.config['UPLOAD_FOLDER'],fname))
+    if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],fname)):
       print(""+fname)
       x=toMfcc(fname)
       res=prePro(x)
-    else:
-      print("The file does not exist") 
-      return ("File not available")
     print("Before predict")
     with graph.as_default():
       result=model.predict(res)
@@ -92,7 +90,7 @@ def delFile(f):
 
 
 def toMfcc(file):
-   X, sample_rate = librosa.load(file, res_type='kaiser_fast')
+   X, sample_rate = librosa.load(os.path.join(app.config['UPLOAD_FOLDER'],file), res_type='kaiser_fast')
    mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40).T,axis=0)
    return mfccs
 
