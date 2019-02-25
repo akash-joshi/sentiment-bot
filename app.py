@@ -46,7 +46,7 @@ def secr():
     val=fresult[0]
     em=emotion_norm(val)
     delFile(fname)
-    print(res)
+  #  print(res)
     print(emotion[em])
     return ("Emotion:"+emotion[em])
 
