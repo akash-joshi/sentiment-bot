@@ -28,6 +28,9 @@ def homepage():
 
 @app.route("/voice-checker",methods=["POST","OPTIONS"])
 def secr():
+    mypath=os.getcwd()+'/tmp/'
+    if not os.path.isdir(mypath):
+	      os.mkdir(mypath)
     a=request.files.get('data')
     fname=request.form.get('fname')
     a.save(os.path.join(app.config['UPLOAD_FOLDER'],fname))
