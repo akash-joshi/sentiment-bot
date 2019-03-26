@@ -54,11 +54,15 @@ if (navigator.mediaDevices.getUserMedia) {
         method:"POST",body:fd
       }
 
+      if(flag)
       fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
           emotion.textContent = emote
           console.log(emote)
       })
+
+      flag = false
+
       chunks = [];
       if (mediaRecorder.state != 'recording')
       mediaRecorder.start()
