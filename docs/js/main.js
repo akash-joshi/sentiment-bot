@@ -49,7 +49,7 @@ function norm_emotion(cur_val){
 			prev_emo_read = 1;
 			break;
 		case 2:
-			global_emo_val += 2;
+			global_emo_val -= 2;
 			prev_emo_read = 2;
 			break;
 	}
@@ -64,6 +64,36 @@ function norm_emotion(cur_val){
 		return "Satisfactory";
 	}
 }
+
+function norm_emotion_orig(cur_val){
+	val red_emo = red_emotion(cur_val)
+	switch(){
+		case 0:
+			global_emo_val -= 2;
+			break;
+		case 1:
+			global_emo_val -= 4;
+			break;
+		case 2:
+			global_emo_val += 6;
+			if(global_emo_val <= -5){
+				global_emo_val += 3;
+			} 
+			if (global_emo_val <= -15) {
+				global_emo_val += 10;
+			}
+			break;
+	}
+	
+	if (global_emo_val >= 10){
+		return "Happy";
+	} else if (global_emo_val < 0){
+		return "Sad";
+	} else {
+		return "Satisfactory";
+	}
+}
+
 // main block for doing the audio recording
 
 if (navigator.mediaDevices.getUserMedia) {
@@ -107,15 +137,11 @@ if (navigator.mediaDevices.getUserMedia) {
         method:"POST",body:fd
       }
 
-      if(flag)
       fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
-          emotion.textContent = norm_emotion(emote)
+          emotion.textContent = norm_emotion_orig(emote)
           console.log(emote)
       })
-
-      flag = false
-
       chunks = [];
       if (mediaRecorder.state != 'recording')
       mediaRecorder.start()
