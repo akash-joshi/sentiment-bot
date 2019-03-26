@@ -11,6 +11,59 @@ let flag=true
 
 stop.disabled = true
 
+// global emotion reading
+// range: -10 to +10
+// angry: -10 to -8
+// satisfactory: -8 to +5
+// happy: +5 to +10
+global_emo_val = 0;
+prev_emo_read = -1;
+
+// calc emotion value
+function red_emotion(val){
+	if(val.localeCompare("4") || val.localeCompare("5") || val.localeCompare("6")){
+		return 2;
+	} else if (val.localeCompare("0") || val.localeCompare("1") || val.localeCompare("3")){
+		return 0;
+	}
+	return 1;
+}
+
+function norm_emotion(cur_val){
+	switch(red_emotion(cur_val)){
+		case 0:
+			global_emo_val += 1;
+			if (global_emo_val < 0 || prev_emo_read == 0){
+				global_emo_val += 1;
+				prev_emo_read = -1;
+			} else {
+				prev_emo_read = 0;
+			}
+			break;
+		case 1:
+			if(prev_emo_read == 1){
+				global_emo_val -= 2;
+			} else {
+				global_emo_val -= 3;
+			}
+			prev_emo_read = 1;
+			break;
+		case 2:
+			global_emo_val += 2;
+			prev_emo_read = 2;
+			break;
+	}
+	
+	global_emo_val = Math.min(Math.max(-10, global_emo_val), 10);
+	
+	if(global_emo_val >= 5) {
+		return "Happy";
+	} else if (global_emo_val < -8) {
+		return "Angry";
+	} else {
+		return "Satisfactory";
+	}
+}
 // main block for doing the audio recording
 
 if (navigator.mediaDevices.getUserMedia) {
@@ -56,7 +109,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
       fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
-          emotion.textContent = emote
+          emotion.textContent = norm_emotion(emote)
           console.log(emote)
       })
       chunks = [];
