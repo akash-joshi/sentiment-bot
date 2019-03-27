@@ -1,6 +1,6 @@
 from flask import (Flask,request,render_template)
 from flask_cors import CORS,cross_origin
-import pandas as pd
+'''import pandas as pd
 import numpy as np
 from werkzeug.utils import secure_filename
 import librosa
@@ -8,7 +8,7 @@ import wave as wa
 import os
 import tensorflow as tf
 from keras.models import load_model
-global graph,model,emotion
+global graph,model,emotion'''
 
 app = Flask(__name__)
 CORS(app)
@@ -20,7 +20,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def main():
     return render_template('index.html')
 
-graph = tf.get_default_graph()
+#graph = tf.get_default_graph()
 files=[]
 
 
@@ -37,7 +37,7 @@ def prePro(x):
     res= np.expand_dims(res, axis=2)
     return res
 	
-model = load_model('server/rnn_mfcc_model_ver_1_CPU.h5')
+#model = load_model('server/rnn_mfcc_model_ver_1_CPU.h5')
 
 @app.route("/voice-checker",methods=["POST","OPTIONS"])
 @cross_origin()
@@ -47,8 +47,9 @@ def secr():
     a=request.files.get('data')
     fname=request.form.get('fname')
   #  files.append(fname)
-    a.save(fname)
-    x=toMfcc(fname)
+    #a.save(fname)
+    return ("AIDS")
+    '''x=toMfcc(fname)
     res=prePro(x)
   #  print(res)
     with graph.as_default():
@@ -63,7 +64,7 @@ def secr():
  #   print(emotion[val])
     print(emotion[em])
     return("Emotion:"+emotion[em])
-'''
+''''''
     #audio_file=request.files
     x=toMfcc(a)s
     res=prePro(x)

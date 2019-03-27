@@ -13,7 +13,7 @@ body {
   font: 16px Helvetica, Arial;
 }
 #startbutton {
-    font-size: 20;
+    font-size: 20px;
   width: 100px;
   background: rgb(30, 235, 82);
   border: none;
@@ -35,7 +35,7 @@ body {
     display: none;
 }
 #stopbutton {
-    font-size: 20;
+    font-size: 20px;
   width: 100px;
   background: rgb(235, 30, 30);
   color: #eee;
@@ -56,5 +56,5 @@ body {
 
 #lol{
   color: red;
-  font-size: 35;
+  font-size: 35px;
 }

@@ -8,8 +8,7 @@ python server.py
 
 ## Starting Client
 ```
-npm add parcel-bundler -g
-parcel index.html
+npx parcel index.html
 ```
 
 > For starting virtual env
