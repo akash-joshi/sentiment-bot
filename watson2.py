@@ -1,9 +1,18 @@
 import watson_developer_cloud
 import json
+import sqlite3
+from sqlite3 import Error
 from flask import Flask, session, redirect, url_for, escape, request
 from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
+
+
+version = '2018-11-08'
+iam_apikey = 'wQ_1OrWKz-2ZTx4rI4AzRxOsuiTAj2F4E5vTHLMZ_r0r'
+url = 'https://gateway-lon.watsonplatform.net/assistant/api'
+assistant_id = '8565e9a4-f45f-43b3-b87e-e54c4dbfa754'
+
 
 def init_watson(version, iam_apikey, url):
     service = watson_developer_cloud.AssistantV2(
@@ -14,7 +23,7 @@ def init_watson(version, iam_apikey, url):
     return service
 
 def transcribe_gcs_long(file_path):
-    client = speech.SpeechClient.from_service_account_json('/content/gdrive/My Drive/Auth/foobar-1528865504312-85786f8e6ce8.json')
+    client = speech.SpeechClient.from_service_account_json('/path/to/Api/')
 
     with io.open(file_path, 'rb') as audio_file:
         content = audio_file.read()
@@ -32,8 +41,22 @@ def transcribe_gcs_long(file_path):
 def decode_text(text):
     result = [x.strip() for x in text.split('.')]
     print(len(result))
-    
-transcribe_gcs_long('/content/gdrive/My Drive/Auth/male.wav')
+
+
+def init_db(db_file):
+    try:
+        conn = sqlite3.connect(db_file)
+        return conn
+    except Error as e:
+        print (e)
+
+    return None
+
+def query_db(conn, qno, emo=0):
+    cur = conn.execute("SELECT * FROM questionsdb WHERE qno=? AND emo=?", (qno, emo))
+    #rows = cur.fetchall()
+    for row in cur:
+        print(row)
 
 app = Flask(__name__)
 app.secret_key = "Secret_Key"
@@ -81,22 +104,17 @@ def message():
                 'text': request.form['message']
                 }
             ).get_result()
+        
         print(response)
-        return '<form action="" method="post"><h1>' + response + '</h1><input type = text name = "message"/><input type = "submit" value = "Send"/></form>'
+        query_db(conn, response["output"]['generic'][0]['text'], 0)
+        
+        return '<form action="" method="post"><h1>' + response["output"]['generic'][0]['text'] + '</h1><input type = text name = "message"/><input type = "submit" value = "Send"/></form>'
     return '<form action="" method="post"><input type = text name = "message"/><input type = "submit" value = "Send"/></form>'
 
-version = '2018-11-08'
-iam_apikey = ''
-url = ''
-assistant_id = ''
-
-#service = init_watson(version, iam_apikey, url)
-#session_id = create_session(service, assistant_id)
-#print (session_id)
-#message(service, assistant_id, session_id, 'text', 'hello')
-#delete_session(service, assistant_id, session_id)
 
 service = init_watson(version, iam_apikey, url)
+conn = init_db("DB/PATH")
+
 if __name__ == "__main__":
     app.run()    
 
