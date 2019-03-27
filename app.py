@@ -4,6 +4,7 @@ from datetime import datetime
 import librosa
 import pandas as pd
 import numpy as np
+import time
 import os
 from keras.models import load_model
 import tensorflow as tf
@@ -34,21 +35,24 @@ def secr():
     a=request.files.get('data')
     fname=request.form.get('fname')
     a.save(os.path.join(app.config['UPLOAD_FOLDER'],fname))
+    while (os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],fname)))!=True:
+      time.sleep(1)
+    
     if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],fname)):
       print(""+fname)
       x=toMfcc(fname)
       res=prePro(x)
-    print("Before predict")
+  #  print("Before predict")
     with graph.as_default():
       result=model.predict(res)
-    print("After predict")
+   # print("After predict")
     fresult=result.argmax(axis=1)
     val=fresult[0]
-    em=emotion_norm(val)
-    delFile(fname)
+ #   em=emotion_norm(val)
+    delFile(os.path.join(app.config['UPLOAD_FOLDER'],fname))
   #  print(res)
-    print(emotion[em])
-    return ("Emotion:"+emotion[em])
+    print(val)
+    return (np.array2string(val))
 
 
 
