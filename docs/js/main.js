@@ -16,8 +16,8 @@ stop.disabled = true
 // angry: -10 to -8
 // satisfactory: -8 to +5
 // happy: +5 to +10
-let global_emo_val = 0;
-let prev_emo_read = -1;
+global_emo_val = 0;
+prev_emo_read = -1;
 
 // calc emotion value
 function red_emotion(val){
@@ -137,7 +137,7 @@ if (navigator.mediaDevices.getUserMedia) {
         method:"POST",body:fd
       }
 
-      fetch('https://sentiment-bot-api.herokuapp.com/voice-checker',options).then(response=>response.text())
+      fetch('https://chat-deploy.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
           emotion.textContent = norm_emotion_orig(emote)
           console.log(emote)
@@ -146,7 +146,6 @@ if (navigator.mediaDevices.getUserMedia) {
       if (mediaRecorder.state != 'recording')
       mediaRecorder.start()
     }
-  }
 
     mediaRecorder.ondataavailable = e => chunks.push(e.data);
   }
