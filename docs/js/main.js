@@ -16,8 +16,8 @@ stop.disabled = true
 // angry: -10 to -8
 // satisfactory: -8 to +5
 // happy: +5 to +10
-global_emo_val = 0;
-prev_emo_read = -1;
+let global_emo_val = 0;
+let prev_emo_read = -1;
 
 // calc emotion value
 function red_emotion(val){
@@ -66,8 +66,8 @@ function norm_emotion(cur_val){
 }
 
 function norm_emotion_orig(cur_val){
-	val red_emo = red_emotion(cur_val)
-	switch(){
+	let red_emo = red_emotion(cur_val)
+	switch(red_emo){
 		case 0:
 			global_emo_val -= 2;
 			break;
