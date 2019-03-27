@@ -55,7 +55,7 @@ if (navigator.mediaDevices.getUserMedia) {
     const mediaRecorder = new MediaRecorder(stream)
 
     record.onclick = () => {
-      startStream(mediaRecorder,3000)
+      startStream(mediaRecorder,1500)
       console.log(mediaRecorder.state)
       console.log('recorder started')
       running.style.display = ""
