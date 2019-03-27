@@ -6,92 +6,41 @@ const { MediaRecorder, Blob } = window
 const {startStream,stopStream} = AVStream
 
 let num=1;
-let flag=true
+let flag=true;
+let emotion_value = 0;
 // disable stop button while not recording
 
 stop.disabled = true
 
-// global emotion reading
-// range: -10 to +10
-// angry: -10 to -8
-// satisfactory: -8 to +5
-// happy: +5 to +10
-global_emo_val = 0;
-prev_emo_read = -1;
+const reducer = input => {
+	if(input == 5 || input == 6 || input == 4)
+		return 2
+	if(input == 0 || input == 1 || input == 3)
+		return 0
+	else return 1
+};
 
-// calc emotion value
-function red_emotion(val){
-	if(val.localeCompare("4") || val.localeCompare("5") || val.localeCompare("6")){
-		return 2;
-	} else if (val.localeCompare("0") || val.localeCompare("1") || val.localeCompare("3")){
-		return 0;
-	}
-	return 1;
-}
-
-function norm_emotion(cur_val){
-	switch(red_emotion(cur_val)){
-		case 0:
-			global_emo_val += 1;
-			if (global_emo_val < 0 || prev_emo_read == 0){
-				global_emo_val += 1;
-				prev_emo_read = -1;
-			} else {
-				prev_emo_read = 0;
-			}
-			break;
-		case 1:
-			if(prev_emo_read == 1){
-				global_emo_val -= 2;
-			} else {
-				global_emo_val -= 3;
-			}
-			prev_emo_read = 1;
-			break;
-		case 2:
-			global_emo_val -= 2;
-			prev_emo_read = 2;
-			break;
-	}
-	
-	global_emo_val = Math.min(Math.max(-10, global_emo_val), 10);
-	
-	if(global_emo_val >= 5) {
-		return "Happy";
-	} else if (global_emo_val < -8) {
-		return "Angry";
+const normalizer = input => {
+	const reduced = reducer(input);
+	if(reduced == 2){
+		emotion_value+=6;
+		if(emotion_value < -5)
+			emotion_value+=3;
+		if(emotion_value < -15)
+			emotion_value+=10;	
 	} else {
-		return "Satisfactory";
-	}
-}
-
-function norm_emotion_orig(cur_val){
-	let red_emo = red_emotion(cur_val)
-	switch(red_emo){
-		case 0:
-			global_emo_val -= 2;
-			break;
-		case 1:
-			global_emo_val -= 4;
-			break;
-		case 2:
-			global_emo_val += 6;
-			if(global_emo_val <= -5){
-				global_emo_val += 3;
-			} 
-			if (global_emo_val <= -15) {
-				global_emo_val += 10;
-			}
-			break;
+		if(reduced != 2 && reduced == 0)
+			emotion_value-=2;
+		else emotion_value-=4;
 	}
 	
-	if (global_emo_val >= 10){
-		return "Happy";
-	} else if (global_emo_val < 0){
-		return "Sad";
-	} else {
-		return "Satisfactory";
-	}
+	console.log(`emotion_value : ${emotion_value}`)
+
+	if(emotion_value >= 10)
+		return 'Anger'
+	if(emotion_value < 0)
+		return 'Happy'
+	else return 'Neutral'
 }
 
 // main block for doing the audio recording
@@ -106,7 +55,7 @@ if (navigator.mediaDevices.getUserMedia) {
     const mediaRecorder = new MediaRecorder(stream)
 
     record.onclick = () => {
-      startStream(mediaRecorder,1000)
+      startStream(mediaRecorder,3000)
       console.log(mediaRecorder.state)
       console.log('recorder started')
       running.style.display = ""
@@ -139,7 +88,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
       fetch('https://chat-deploy.herokuapp.com/voice-checker',options).then(response=>response.text())
       .then(emote=>{
-          emotion.textContent = norm_emotion_orig(emote)
+          emotion.textContent = normalizer(emote)
           console.log(emote)
       })
       chunks = [];
