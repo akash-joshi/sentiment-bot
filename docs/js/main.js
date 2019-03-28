@@ -13,7 +13,7 @@ let emotion_value = 0;
 stop.disabled = true
 
 const reducer = input => {
-	if(input == 5 || input == 6 || input == 4)
+	if(input == 5 || input == 4)
 		return 2
 	if(input == 0 || input == 1 || input == 3)
 		return 0
