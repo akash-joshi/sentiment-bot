@@ -1,7 +1,5 @@
 import watson_developer_cloud
 import json
-import sqlite3
-from sqlite3 import Error
 from flask import Flask, session, redirect, url_for, escape, request
 from google.cloud import speech
 from google.cloud.speech import enums
@@ -41,22 +39,7 @@ def transcribe_gcs_long(file_path):
 def decode_text(text):
     result = [x.strip() for x in text.split('.')]
     print(len(result))
-
-
-def init_db(db_file):
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Error as e:
-        print (e)
-
-    return None
-
-def query_db(conn, qno, emo=0):
-    cur = conn.execute("SELECT * FROM questionsdb WHERE qno=? AND emo=?", (qno, emo))
-    #rows = cur.fetchall()
-    for row in cur:
-        print(row)
+    
 
 app = Flask(__name__)
 app.secret_key = "Secret_Key"
@@ -96,24 +79,23 @@ def delete_session():
 @app.route('/message', methods = ['GET', 'POST'])
 def message():
     if request.method == 'POST':
+        print(request.form['emotion'])
         response = service.message(
             assistant_id = assistant_id,
             session_id = session['session_id'],
             input={
                 'message_type': 'text',
-                'text': request.form['message']
+                'text': request.form['message'] + "," + request.form['emotion']
                 }
             ).get_result()
         
         print(response)
-        query_db(conn, response["output"]['generic'][0]['text'], 0)
         
-        return '<form action="" method="post"><h1>' + response["output"]['generic'][0]['text'] + '</h1><input type = text name = "message"/><input type = "submit" value = "Send"/></form>'
-    return '<form action="" method="post"><input type = text name = "message"/><input type = "submit" value = "Send"/></form>'
+        return '<form action="" method="post"><h1>' + response["output"]['generic'][0]['text'] + '</h1><input type = text name = "message"/><br><input type="radio" name="emotion" value="anger"> Anger<br><input type="radio" name="emotion" value="noanger"> NoAnger<br><input type = "submit" value = "Send"/></form>'
+    return '<form action="" method="post"><input type = text name = "message"/><br><input type="radio" name="emotion" value="anger"> Anger<br><input type="radio" name="emotion" value="noanger"> NoAnger<br><input type = "submit" value = "Send"/></form>'
 
 
 service = init_watson(version, iam_apikey, url)
-conn = init_db("DB/PATH")
 
 if __name__ == "__main__":
     app.run()    
