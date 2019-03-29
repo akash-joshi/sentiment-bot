@@ -1,9 +1,9 @@
 import watson_developer_cloud
 import json
 from flask import Flask, session, redirect, url_for, escape, request
-from google.cloud import speech
-from google.cloud.speech import enums
-from google.cloud.speech import types
+#from google.cloud import speech
+#from google.cloud.speech import enums
+#from google.cloud.speech import types
 
 
 version = '2018-11-08'
@@ -20,7 +20,7 @@ def init_watson(version, iam_apikey, url):
         )
     return service
 
-def transcribe_gcs_long(file_path):
+'''def transcribe_gcs_long(file_path):
     client = speech.SpeechClient.from_service_account_json('/path/to/Api/')
 
     with io.open(file_path, 'rb') as audio_file:
@@ -34,7 +34,7 @@ def transcribe_gcs_long(file_path):
 
     for result in response.results:
         print(u'Transcript: {}'.format(result.alternatives[0].transcript))
-    decode_text(result.alternatives[0].transcript)
+    decode_text(result.alternatives[0].transcript)'''
         
 def decode_text(text):
     result = [x.strip() for x in text.split('.')]
