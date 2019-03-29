@@ -51,30 +51,27 @@ def index():
         return redirect(url_for('message'))
     return "<a href='/create_session'>login</a>"
 
-@app.route('/create_session', methods = ['GET','POST'])
+@app.route('/create_session', methods = ['POST'])
 def create_session():
-    if request.method == 'POST':
-        #service = session['service']
-        service.set_default_headers({'x-watson-learning-opt-out': "true"})
-        response = service.create_session(
-            assistant_id = assistant_id
-            ).get_result()
-        print(json.dumps(response, indent=2))
-        
-        session['username'] = request.form['username']
-        session['session_id'] = response["session_id"]
-        return redirect(url_for('message'))
+    #service = session['service']
+    service.set_default_headers({'x-watson-learning-opt-out': "true"})
+    response = service.create_session(
+        assistant_id = assistant_id
+        ).get_result()
     
-    return '<form action = "" method = "post"><p><input type = text name = "username"/></p><p><input type = "submit" value = "Login"/></p></form>'
+    sessid = response['session_id']
+    return sessid
 
-@app.route('/delete_session')
+@app.route('/delete_session',methods=['POST'])
 def delete_session():
+    got = request.get_json(force=True)
+    session_id = got['session_id']
     response = service.delete_session(
         assistant_id = assistant_id,
-        session_id = session['session_id']
+        session_id = session_id
         ).get_result()
-    session.pop('username', None)
-    return "Session deleted"
+
+    return 'ok'
 
 @app.route('/message', methods = ['GET', 'POST'])
 def message():
