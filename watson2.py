@@ -57,7 +57,7 @@ def delete_session():
 def message():
     got = request.get_json(force=True)
     emotion = got['emotion']
-    message = got['message']
+    message = str(got['message'])
     response = service.message(
         assistant_id = assistant_id,
         session_id = got['session_id'],
@@ -68,7 +68,7 @@ def message():
         ).get_result()
     
     print(response)
-    return 'lol'
+    return  response["output"]['generic'][0]['text']
 
 
 service = init_watson(version, iam_apikey, url)
