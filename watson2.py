@@ -17,10 +17,30 @@ def init_watson(version, iam_apikey, url):
         )
     return service
         
-def decode_text(text):
-    result = [x.strip() for x in text.split('.')]
-    print(len(result))
-    
+def suggest_quest(intent):
+    response = ""
+    question1 = ""
+    question2 = ""
+
+    with open('dialogs.txt') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        questnos = sum(1 for row in csv_reader)
+        #questnos = 11
+        idx = 0
+        for row in csv_reader:
+            if(row[0] == quest):
+                if(idx == questnos-1):
+                    response = ""
+                elif idx == questnos-2:
+                    question1 = next(csv_reader)[1]
+                else :
+                    question1 = next(csv_reader)[1]
+                    question2 = next(csv_reader)[1]
+                break
+            idx += 1
+                        
+    response = json.dumps({'quest1': quest1, 'quest2': quest2})
+    return question1, question2
 
 app = Flask(__name__)
 app.secret_key = "Secret_Key"
@@ -67,8 +87,11 @@ def message():
             }
         ).get_result()
     
-    print(response)
-    return  response["output"]['generic'][0]['text']
+    question1, question2 = suggest_quest(response["output"]['generic'][0]['text'])
+
+    resp_json = json.dumps({'answer': response["output"]['generic'][0]['text'], 'rec_q1': question1, 'rec_q2': question2})
+    print(resp_json)
+    return  resp_json
 
 
 service = init_watson(version, iam_apikey, url)
