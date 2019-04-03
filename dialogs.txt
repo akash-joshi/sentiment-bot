@@ -1,11 +1,11 @@
-#order_time_place, How long will it take for the delivery of the order?
-#change_contents, I want to add another pizza to my order
-#change_delivery_address, Change my delivery address
-#want_to_cancel, I want to cancel my order
-#order_cancel, Why did the restaurant cancel my order
-#charge_for_cancel, Why was I charged for cancellation?
-#amount_refund, When will I get refund?
-#never_arrived, My order never arrived
-#promo_code_not_apply
-#order_damage, My order was poorly packed
-#veg_nonveg, I did not ordered a veg/nonveg pizza
+order_time_place, How long will it take for the delivery of the order?
+change_contents, I want to add another pizza to my order
+change_delivery_address, Change my delivery address
+want_to_cancel, I want to cancel my order
+order_cancel, Why did the restaurant cancel my order
+charge_for_cancel, Why was I charged for cancellation?
+amount_refund, When will I get refund?
+never_arrived, My order never arrived
+promo_code_not_apply
+order_damage, My order was poorly packed
+veg_nonveg, I did not ordered a veg/nonveg pizza
