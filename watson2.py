@@ -18,7 +18,6 @@ def init_watson(version, iam_apikey, url):
     return service
         
 def suggest_quest(intent):
-    response = ""
     question1 = ""
     question2 = ""
 
@@ -27,8 +26,9 @@ def suggest_quest(intent):
         questnos = sum(1 for row in csv_reader)
         #questnos = 11
         idx = 0
+        
         for row in csv_reader:
-            if(row[0] == quest):
+            if(row[0] == intent):
                 if(idx == questnos-1):
                     response = ""
                 elif idx == questnos-2:
@@ -38,8 +38,7 @@ def suggest_quest(intent):
                     question2 = next(csv_reader)[1]
                 break
             idx += 1
-                        
-    response = json.dumps({'quest1': quest1, 'quest2': quest2})
+    
     return question1, question2
 
 app = Flask(__name__)
@@ -91,7 +90,7 @@ def message():
 
     resp_json = json.dumps({'answer': response["output"]['generic'][0]['text'], 'rec_q1': question1, 'rec_q2': question2})
     print(resp_json)
-    return  resp_json
+    return resp_json
 
 
 service = init_watson(version, iam_apikey, url)
