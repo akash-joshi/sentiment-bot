@@ -1,7 +1,7 @@
 import watson_developer_cloud
 import json
 from flask import Flask, session, redirect, url_for, escape, request
-
+import csv
 
 version = '2018-11-08'
 iam_apikey = 'wQ_1OrWKz-2ZTx4rI4AzRxOsuiTAj2F4E5vTHLMZ_r0r'
@@ -20,14 +20,15 @@ def init_watson(version, iam_apikey, url):
 def suggest_quest(intent):
     question1 = ""
     question2 = ""
-
+    print(intent)
     with open('dialogs.txt') as csv_file:
         csv_reader = csv.reader(csv_file)
-        questnos = sum(1 for row in csv_reader)
-        #questnos = 11
+        questnos = 11
         idx = 0
-        
+        print(questnos)
+    
         for row in csv_reader:
+            print (row[0])
             if(row[0] == intent):
                 if(idx == questnos-1):
                     response = ""
@@ -38,6 +39,7 @@ def suggest_quest(intent):
                     question2 = next(csv_reader)[1]
                 break
             idx += 1
+        
     
     return question1, question2
 
