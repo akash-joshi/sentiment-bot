@@ -86,7 +86,7 @@ def message():
             }
         ).get_result()
     
-    question1, question2 = suggest_quest(response["output"]['generic'][0]['text'])
+    question1, question2 = suggest_quest(response["output"]['intents'][0]['intent'])
 
     resp_json = json.dumps({'answer': response["output"]['generic'][0]['text'], 'rec_q1': question1, 'rec_q2': question2})
     print(resp_json)
