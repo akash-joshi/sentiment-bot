@@ -31,7 +31,7 @@ def suggest_quest(intent):
             question3 = df.values[random.choice(number)][1]
             question4 = df.values[random.choice(number)][1]
             question5 = df.values[random.choice(number)][1]
-            print (question1, question2, question3, question4, question5)
+            #print (question1, question2, question3, question4, question5)
 
     return question1, question2, question3, question4, question5
 
