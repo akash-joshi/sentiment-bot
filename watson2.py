@@ -1,7 +1,8 @@
 import watson_developer_cloud
 import json
 from flask import Flask, session, redirect, url_for, escape, request
-import csv
+import random
+import pandas as pd
 
 version = '2018-11-08'
 iam_apikey = 'wQ_1OrWKz-2ZTx4rI4AzRxOsuiTAj2F4E5vTHLMZ_r0r'
@@ -18,30 +19,21 @@ def init_watson(version, iam_apikey, url):
     return service
         
 def suggest_quest(intent):
-    question1 = ""
-    question2 = ""
-    print(intent)
-    with open('dialogs.txt') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        questnos = 11
-        idx = 0
-        print(questnos)
-    
-        for row in csv_reader:
-            print (row[0])
-            if(row[0] == intent):
-                if(idx == questnos-1):
-                    response = ""
-                elif idx == questnos-2:
-                    question1 = next(csv_reader)[1]
-                else :
-                    question1 = next(csv_reader)[1]
-                    question2 = next(csv_reader)[1]
-                break
-            idx += 1
-        
-    
-    return question1, question2
+    question1, question2 = "", ""
+    question3, question4, question5 = "", "", ""
+    #print(intent)
+    df = pd.read_csv("dialogs.txt", sep=",", header=None)
+    for idx, row in enumerate(df.values):
+        if(row[0] == intent):
+            question1 = df.values[(idx+1) % len(df)][1]
+            question2 = df.values[(idx+2) % len(df)][1]
+            number = list(range(0, (idx+1) % len(df))) + list(range((idx+2) % len(df), len(df)))
+            question3 = df.values[random.choice(number)][1]
+            question4 = df.values[random.choice(number)][1]
+            question5 = df.values[random.choice(number)][1]
+            print (question1, question2, question3, question4, question5)
+
+    return question1, question2, question3, question4, question5
 
 app = Flask(__name__)
 app.secret_key = "Secret_Key"
@@ -88,9 +80,9 @@ def message():
             }
         ).get_result()
     
-    question1, question2 = suggest_quest(response["output"]['intents'][0]['intent'])
+    question1, question2, question3, question4, question5 = suggest_quest(response["output"]['intents'][0]['intent'])
 
-    resp_json = json.dumps({'answer': response["output"]['generic'][0]['text'], 'rec_q1': question1, 'rec_q2': question2})
+    resp_json = json.dumps({'answer': response["output"]['generic'][0]['text'], 'rec_q1': question1, 'rec_q2': question2, 'rec_q3': question3, 'rec_q4': question4, 'rec_q5': question5})
     print(resp_json)
     return resp_json
 
