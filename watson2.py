@@ -27,7 +27,7 @@ def suggest_quest(intent):
         if(row[0] == intent):
             question1 = df.values[(idx+1) % len(df)][1]
             question2 = df.values[(idx+2) % len(df)][1]
-            number = list(range(0, (idx+1) % len(df))) + list(range((idx+2) % len(df), len(df)))
+            number = list(range(0, (idx+1) % len(df))) + list(range((idx+3) % len(df), len(df)))
             question3 = df.values[random.choice(number)][1]
             question4 = df.values[random.choice(number)][1]
             question5 = df.values[random.choice(number)][1]
