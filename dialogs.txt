@@ -6,6 +6,6 @@ order_cancel, Why did the restaurant cancel my order
 charge_for_cancel, Why was I charged for cancellation?
 amount_refund, When will I get refund?
 never_arrived, My order never arrived
-promo_code_not_apply
+promo_code_not_apply, Why is promo code invalid
 order_damage, My order was poorly packed
 veg_nonveg, I did not ordered a veg/nonveg pizza
