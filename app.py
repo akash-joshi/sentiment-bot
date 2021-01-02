@@ -20,6 +20,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def main():
     return render_template('index.html')
 
+@app.route("/test")
+def test():
+  return "running"
+
 #graph = tf.get_default_graph()
 files=[]
 
