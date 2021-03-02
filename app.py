@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 import librosa
@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import time
 import os
+import random
+import string
 
 import tensorflow as tf
 app = Flask(__name__)
@@ -18,7 +20,7 @@ model = tf.keras.models.load_model('model/rnn_mfcc_model_ver_1_CPU.h5')
 
 files = []
 
-emotion = ["neutral", " calm", "happy", "sad",
+emotion = ["neutral", "calm", "happy", "sad",
            "angry", "fearful", "disgust", "surprised"]
 count = 0
 
@@ -34,26 +36,28 @@ def secr():
     if not os.path.isdir(mypath):
         os.mkdir(mypath)
     a = request.files.get('data')
-    fname = request.form.get('fname')
+    fname = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     a.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
     while (os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], fname))) != True:
         time.sleep(1)
 
     if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], fname)):
-        print(""+fname)
+
         x = toMfcc(fname)
         res = prePro(x)
-    #  print("Before predict")
 
     result = model.predict(res)
-   # print("After predict")
+
     fresult = result.argmax(axis=1)
     val = fresult[0]
 
     delFile(os.path.join(app.config['UPLOAD_FOLDER'], fname))
-    #  print(res)
-    print(val)
-    return (np.array2string(val))
+
+    value = int(np.array2string(val))
+
+    emotion_string = emotion[value]
+
+    return jsonify({"value": value, "string": emotion_string})
 
 
 emo = 0
@@ -73,7 +77,6 @@ def emotion_norm(v):
     else:
         emo -= 4
 
-    print(emo)
     if emo >= 10:
         return 4
     elif emo < 0:
@@ -114,4 +117,4 @@ def prePro(x):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, use_reloader=False, host= '0.0.0.0')
+    app.run(debug=False, use_reloader=False, host='0.0.0.0')
