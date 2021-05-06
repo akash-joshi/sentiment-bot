@@ -2,7 +2,7 @@ Flask==1.0.2
 gunicorn==19.9.0
 numpy==1.16.0
 Werkzeug==0.15.3
-Flask_Cors==3.0.2
+Flask_Cors==3.0.9
 pandas==0.20.1
 tensorflow==1.15.4
 Keras==2.2.4
