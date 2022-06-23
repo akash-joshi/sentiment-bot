@@ -19,7 +19,7 @@
   "dependencies": {
     "form-data": "^2.3.3",
     "jquery": "^3.5.0",
-    "jsdom": "^13.2.0",
+    "jsdom": "^16.5.0",
     "parcel-bundler": "^1.11.0"
   },
   "jest": {
